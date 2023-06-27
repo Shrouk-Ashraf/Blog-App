@@ -1,0 +1,137 @@
+{
+  "project_info": {
+    "project_number": "588941731743",
+    "project_id": "museum-47392",
+    "storage_bucket": "museum-47392.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588941731743:android:cfb5f53520ab8eac84bfaa",
+        "android_client_info": {
+          "package_name": "com.example.blogapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588941731743-uuo3vrugmt1vjvfpnpn259nm8nv2a6a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa7mmU7VRq4rXn9UCUxyl6zVlrIjlPS_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588941731743-951pap0g9k4fam6uelkeg09sc2gkgt3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588941731743:android:8718021bebda9a4884bfaa",
+        "android_client_info": {
+          "package_name": "com.example.graduationproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588941731743-fnilqept22qvsdkn1hsiirngjasjeics.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduationproject",
+            "certificate_hash": "543451d174025469221232c1bf80721ee7bf16cd"
+          }
+        },
+        {
+          "client_id": "588941731743-jkr7saukid0nu6hmnjchg862s2pg1fpg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduationproject",
+            "certificate_hash": "968e262d85ae80d0b141eb01023b98d6f38056e0"
+          }
+        },
+        {
+          "client_id": "588941731743-m9hlhuio92gmq75kpdkq9tplndfasup7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduationproject",
+            "certificate_hash": "ad4c22f77aecea285b31aed695a0bddfd787c8db"
+          }
+        },
+        {
+          "client_id": "588941731743-sqlttnecauttpuq7dvjttcsu3besalu7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduationproject",
+            "certificate_hash": "faf124a0bce71d9d6e7ded9aebc228293f268edd"
+          }
+        },
+        {
+          "client_id": "588941731743-uuo3vrugmt1vjvfpnpn259nm8nv2a6a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa7mmU7VRq4rXn9UCUxyl6zVlrIjlPS_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588941731743-951pap0g9k4fam6uelkeg09sc2gkgt3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588941731743:android:f5f46aefdd97b40284bfaa",
+        "android_client_info": {
+          "package_name": "com.example.the_grad_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588941731743-f0sicseflamstjlgdo9e2jp4bvohmtp0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.the_grad_project",
+            "certificate_hash": "968e262d85ae80d0b141eb01023b98d6f38056e0"
+          }
+        },
+        {
+          "client_id": "588941731743-uuo3vrugmt1vjvfpnpn259nm8nv2a6a3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa7mmU7VRq4rXn9UCUxyl6zVlrIjlPS_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588941731743-951pap0g9k4fam6uelkeg09sc2gkgt3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
