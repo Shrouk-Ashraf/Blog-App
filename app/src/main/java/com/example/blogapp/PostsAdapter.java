@@ -136,7 +136,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                             Toast.makeText(mContext,"Error in dislike  " +e.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     });
-                }else{
+                }else{ //to like
                     postLikes = postLikes +1;
                     data.put("likes",postLikes.toString());
                     whoLikes.add(myUid);
