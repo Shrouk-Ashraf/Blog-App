@@ -1,48 +1,32 @@
 package com.example.blogapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ModelPosts {
-    String post_ID,description,email,uid, name, user_img;
+    String post_ID,description,email,uid, name, user_img, likes;
     String timestamp;
     List<Map<String, Object>> images =new ArrayList<>();
+    List<String> whoLikes = new ArrayList<>();
 
     public ModelPosts() {
     }
 
-    public ModelPosts(String post_ID, String description, String email, String uid, String timestamp,
-                      String uImage, List<Map<String, Object>> images, String name) {
+    public ModelPosts(String post_ID, String description, String email, String uid, String name, String user_img, String postLikes, String timestamp, List<Map<String, Object>> images, List<String> whoLike) {
         this.post_ID = post_ID;
         this.description = description;
         this.email = email;
-        this.name = name;
         this.uid = uid;
+        this.name = name;
+        this.user_img = user_img;
+        this.likes = postLikes;
         this.timestamp = timestamp;
         this.images = images;
-        this.user_img = uImage;
-    }
-
-    public String getUser_img() {
-        return user_img;
-    }
-
-    public void setUser_img(String user_img) {
-        this.user_img = user_img;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.whoLikes = whoLike;
     }
 
     public String getPost_ID() {
-
         return post_ID;
     }
 
@@ -74,6 +58,30 @@ public class ModelPosts {
         this.uid = uid;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUser_img() {
+        return user_img;
+    }
+
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
     public String getTimestamp() {
         return timestamp;
     }
@@ -88,5 +96,13 @@ public class ModelPosts {
 
     public void setImages(List<Map<String, Object>> images) {
         this.images = images;
+    }
+
+    public List<String> getWhoLikes() {
+        return whoLikes;
+    }
+
+    public void setWhoLikes(List<String> whoLikes) {
+        this.whoLikes = whoLikes;
     }
 }

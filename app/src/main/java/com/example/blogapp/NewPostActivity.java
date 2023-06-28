@@ -400,6 +400,7 @@ public class NewPostActivity extends AppCompatActivity {
     private void storeLinksToFirestore(ArrayList<String> images_urLs, String description, String timeStamp, List<Map<String, Object>> imagesMap) {
         String post_id = String.valueOf(System.currentTimeMillis());
         Map<String, Object> postMap = new HashMap<>();
+        String likes = "0";
         postMap.put("images", imagesMap);
         postMap.put("description",description);
         postMap.put("uid", userId);
@@ -408,6 +409,7 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("email", uEmail);
         postMap.put("name", uName);
         postMap.put("user_img", uImage);
+        postMap.put("likes",likes);
 
         if(!TextUtils.isEmpty(description) && postImageUri != null) {
             firebaseFirestore.collection("posts").document(post_id).set(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
