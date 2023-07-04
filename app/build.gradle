@@ -43,6 +43,9 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+
     //crop image dependency
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 

@@ -45,8 +45,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
     boolean processLike = true ;
     List<String> whoLikes = new ArrayList<>();
 
-    public PostsAdapter() {
-    }
 
     public PostsAdapter(Context context, List<ModelPosts> postLists, setOnClickListener setOnClickListener) {
         mContext = context;
@@ -98,7 +96,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         holder.pComments.setText(post_comments + " Comments");
 
         setLikes(holder,whoLikes);
-        System.out.println("2 " + processLike );
 
         Glide.with(mContext).load(user_picture)
                 .placeholder(R.drawable.default_profile_img).into(holder.user_picture);

@@ -205,8 +205,6 @@ public class NewPostActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if(editImagesLists.size() != choosed_images.size()){
-            System.out.println("Images choosed are: "+choosed_images);
-            System.out.println("Images edited are: "+editImagesLists);
             Toast.makeText(mContext,"Back", Toast.LENGTH_LONG).show();
         }
 

@@ -336,8 +336,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-
-
                     Toast.makeText(MainActivity.this,"Deleted",Toast.LENGTH_LONG).show();
 
                 }

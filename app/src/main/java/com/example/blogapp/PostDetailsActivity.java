@@ -4,12 +4,12 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,14 +41,14 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.core.FirestoreClient;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +69,10 @@ public class PostDetailsActivity extends AppCompatActivity {
     EditText commentEt;
     ImageButton sendBtn;
     ImageView commentUserIv;
+    RecyclerView commentsRv;
+
+    List<ModelComments> commentList;
+    CommentsAdapter commentsAdapter;
 
     //get Details of user and post
     String uid ,myUid, myEmail,myName, myImg, postId, postLikes, hisDesc,hisName;
@@ -76,7 +80,6 @@ public class PostDetailsActivity extends AppCompatActivity {
     private List<Map<String, Object>> images;
 
     private ViewPagerAdapter mViewPager;
-    private PostsAdapter mPostsAdapter;
     private Toolbar postDetailsToolbar;
 
     private boolean mProcessComment = false;
@@ -115,7 +118,10 @@ public class PostDetailsActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
         commentUserIv = findViewById(R.id.comment_user_IV);
         mProgressBar = findViewById(R.id.commentProgressBar);
+        commentsRv = findViewById(R.id.comments_RV);
 
+
+        loadComments();
         loadPostInfo();
 
         checkUserStatus();
@@ -145,6 +151,35 @@ public class PostDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void loadComments() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        commentsRv.setLayoutManager(layoutManager);
+
+        commentList = new ArrayList<>();
+
+        FirebaseFirestore.getInstance().collection("posts").document(postId)
+                .collection("comments").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                        commentList.clear();
+                        for(DocumentSnapshot qs : documents){
+                            ModelComments comments = qs.toObject(ModelComments.class);
+                            commentList.add(comments);
+                            commentsAdapter = new CommentsAdapter(getApplicationContext(),commentList,myUid,postId);
+                            commentsAdapter.notifyDataSetChanged();
+                            commentsRv.setAdapter(commentsAdapter);
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
 
     private void showMoreOptions() {
         //creating a pop menu having options delete
@@ -161,7 +196,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 if (id ==0){
                     //delete is clicked
-                    beginDelete();
+                    beginDeletePost();
                 }else if (id ==1){
                     //Edit is clicked
                     //Start the NewPostActivity with key "editPost" and the id of the post clicked
@@ -177,7 +212,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
-    private void beginDelete() {
+    private void beginDeletePost() {
         ProgressBar progressBar =new ProgressBar(this);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -311,12 +346,15 @@ public class PostDetailsActivity extends AppCompatActivity {
             return;
         }
         String time =String.valueOf(System.currentTimeMillis());
+        SimpleDateFormat t = new SimpleDateFormat("dd/MM/yyyy hh:mm z");
+        String theTime = t.format(new Date());
         data.put("cId",time);
         data.put("comment",comment);
         data.put("uid",myUid);
         data.put("email",myEmail);
         data.put("name",myName);
         data.put("user_img",myImg);
+        data.put("timestamp",theTime);
         FirebaseFirestore.getInstance().collection("posts").document(postId)
                 .collection("comments").document(time).set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -325,6 +363,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
                 commentEt.setText("");
                 updateCommentCount();
+                loadComments();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -437,8 +476,6 @@ public class PostDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
