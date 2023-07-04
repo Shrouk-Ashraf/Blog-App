@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         layoutManager.setReverseLayout(true);
         //set layout to rv
         mRecyclerView.setLayoutManager(layoutManager);
-
-
         moreBtn = findViewById(R.id.moreBtn);
         //init post list
         postsList = new ArrayList<>();
@@ -120,15 +118,13 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 postsList.clear();
                 for(QueryDocumentSnapshot qs : task.getResult()){
                     ModelPosts modelPosts = qs.toObject(ModelPosts.class);
-
                     postsList.add(modelPosts);
-                    //adapter
-                    mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
-                    mPostsAdapter.notifyDataSetChanged();
-                    //set adapter to rv
-                    mRecyclerView.setAdapter(mPostsAdapter);
-
                 }
+                //adapter
+                mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
+                mPostsAdapter.notifyDataSetChanged();
+                //set adapter to rv
+                mRecyclerView.setAdapter(mPostsAdapter);
             }
         });
 
@@ -140,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 postsList.clear();
+                System.out.println("search" );
                 for(QueryDocumentSnapshot qs : task.getResult()){
                     ModelPosts modelPosts = qs.toObject(ModelPosts.class);
 
@@ -157,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         });
 
     }
+
 
 
     @Override
@@ -177,6 +175,9 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                             Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
                             startActivity(setupIntent);
                             finish();
+                        }
+                        else {
+                            loadPosts();
                         }
                     }else{
                         String error = task.getException().getMessage();

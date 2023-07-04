@@ -64,7 +64,11 @@ public class ViewPagerAdapter  extends PagerAdapter {
 
         int del_position = position;
 
-        if(this.i==1){
+        if(this.i == 2){
+            trash.setVisibility(View.INVISIBLE);
+            delete_view.setVisibility(View.INVISIBLE);
+        }
+        else if(this.i==1){
             trash.setVisibility(View.VISIBLE);
             delete_view.setVisibility(View.INVISIBLE);
             trash.setOnClickListener(new View.OnClickListener() {

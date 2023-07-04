@@ -180,7 +180,6 @@ public class NewPostActivity extends AppCompatActivity {
 
                     String editDescription = editPosts.getDescription();
                     mEditImages = (List<Map<String,Object>>) qs.getData().get("images");
-                    System.out.println("images Editing : "+mEditImages);
 
                     for(int i = 0; i< mEditImages.size(); i++){
                         editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
@@ -401,6 +400,8 @@ public class NewPostActivity extends AppCompatActivity {
         String post_id = String.valueOf(System.currentTimeMillis());
         Map<String, Object> postMap = new HashMap<>();
         String likes = "0";
+        String comments = "0";
+        List<String> whoLikes = new ArrayList<>();
         postMap.put("images", imagesMap);
         postMap.put("description",description);
         postMap.put("uid", userId);
@@ -410,6 +411,8 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("name", uName);
         postMap.put("user_img", uImage);
         postMap.put("likes",likes);
+        postMap.put("comments",comments);
+        postMap.put("whoLikes",whoLikes);
 
         if(!TextUtils.isEmpty(description) && postImageUri != null) {
             firebaseFirestore.collection("posts").document(post_id).set(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
