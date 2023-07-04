@@ -177,7 +177,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         holder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"share btn", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext, NewPostActivity.class);
+                intent.putExtra("shareKey","share");
+                intent.putExtra("sharePostId", post_id);
+                mContext.startActivity(intent);
             }
         });
 

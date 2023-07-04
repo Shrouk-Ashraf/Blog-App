@@ -80,12 +80,13 @@ public class NewPostActivity extends AppCompatActivity {
 
     //Post Details to be edited
     String isUpdateKey;
+    String isShareKey;
+    String sharePostId;
     String editPostDesc;
     String editPostId;
     ArrayList<Uri> editImagesLists = new ArrayList<>();
     private List<Map<String, Object>> mEditImages;
 
-    ImageView deleteImage ;
     private ViewPagerAdapter mViewPager;
 
     @Override
@@ -107,7 +108,7 @@ public class NewPostActivity extends AppCompatActivity {
         choosed_images = new ArrayList<>();
         images_URLs = new ArrayList<>();
 
-        deleteImage = findViewById(R.id.trash_iv);
+
 
         setSupportActionBar(newPostToolbar);
         getSupportActionBar().setTitle("Add New Post");
@@ -123,13 +124,19 @@ public class NewPostActivity extends AppCompatActivity {
         Intent mainIntent = getIntent();
         isUpdateKey = ""+mainIntent.getStringExtra("key");
         editPostId  = ""+mainIntent.getStringExtra("editPostId");
+        isShareKey = ""+mainIntent.getStringExtra("shareKey");
+        sharePostId = ""+mainIntent.getStringExtra("sharePostId");
 
         //validate if we came here to update the post
         if(isUpdateKey.equals("editPost")){
             getSupportActionBar().setTitle("Update Post");
             newPostBtn.setText("Update");
             loadPostData(editPostId);
-        }else{
+        }else if(isShareKey.equals("share")){
+            getSupportActionBar().setTitle("Share Post");
+            newPostBtn.setText("Share");
+            loadPostData(sharePostId);
+        } else{
             getSupportActionBar().setTitle("Add New Post");
             newPostBtn.setText("Upload");
         }
@@ -168,37 +175,105 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private void loadPostData(String editPostId) {
-        add_more_images.setVisibility(View.VISIBLE);
-        addImagesCv.setVisibility(View.VISIBLE);
-        firebaseFirestore.collection("posts").whereEqualTo("post_ID",editPostId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+        if(isShareKey.equals("share")){
+            add_more_images.setVisibility(View.INVISIBLE);
+            addImagesCv.setVisibility(View.INVISIBLE);
+            firebaseFirestore.collection("posts").whereEqualTo("post_ID", editPostId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
 
-                for(DocumentSnapshot qs : snapshotList){
-                    ModelPosts editPosts = qs.toObject(ModelPosts.class);
+                    for (DocumentSnapshot qs : snapshotList) {
+                        ModelPosts editPosts = qs.toObject(ModelPosts.class);
 
-                    String editDescription = editPosts.getDescription();
-                    mEditImages = (List<Map<String,Object>>) qs.getData().get("images");
+                        String editDescription = editPosts.getDescription();
+                        mEditImages = (List<Map<String, Object>>) qs.getData().get("images");
 
-                    for(int i = 0; i< mEditImages.size(); i++){
-                        editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
-                        choosed_images.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                        for (int i = 0; i < mEditImages.size(); i++) {
+                            editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                            choosed_images.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                        }
+
+
+                        //set the data to the views
+                        newPostDesc.setText(editDescription);
+
+                        mViewPager = new ViewPagerAdapter(NewPostActivity.this, editImagesLists, 3);
+                        new_image_pager.setAdapter(mViewPager);
+                        new_image_pager.setCurrentItem(0, false);
+                        mCircleIndicator.setViewPager(new_image_pager);
+                        mViewPager.notifyDataSetChanged();
+
                     }
-
-
-                    //set the data to the views
-                    newPostDesc.setText(editDescription);
-
-                    mViewPager = new ViewPagerAdapter(NewPostActivity.this, editImagesLists,1);
-                    new_image_pager.setAdapter(mViewPager);
-                    new_image_pager.setCurrentItem(0,false);
-                    mCircleIndicator.setViewPager(new_image_pager);
-                    mViewPager.notifyDataSetChanged();
-
                 }
-            }
-        });
+            });
+
+        }else {
+            add_more_images.setVisibility(View.VISIBLE);
+            addImagesCv.setVisibility(View.VISIBLE);
+            firebaseFirestore.collection("posts").whereEqualTo("post_ID", editPostId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+
+                    for (DocumentSnapshot qs : snapshotList) {
+                        ModelPosts editPosts = qs.toObject(ModelPosts.class);
+
+                        String editDescription = editPosts.getDescription();
+                        mEditImages = (List<Map<String, Object>>) qs.getData().get("images");
+
+                        for (int i = 0; i < mEditImages.size(); i++) {
+                            editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                            choosed_images.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                        }
+
+
+                        //set the data to the views
+                        newPostDesc.setText(editDescription);
+
+                        mViewPager = new ViewPagerAdapter(NewPostActivity.this, editImagesLists, 1);
+                        new_image_pager.setAdapter(mViewPager);
+                        new_image_pager.setCurrentItem(0, false);
+                        mCircleIndicator.setViewPager(new_image_pager);
+                        mViewPager.notifyDataSetChanged();
+
+                    }
+                }
+            });
+
+        }
+/*
+            firebaseFirestore.collection("posts").whereEqualTo("post_ID", editPostId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+
+                    for (DocumentSnapshot qs : snapshotList) {
+                        ModelPosts editPosts = qs.toObject(ModelPosts.class);
+
+                        String editDescription = editPosts.getDescription();
+                        mEditImages = (List<Map<String, Object>>) qs.getData().get("images");
+
+                        for (int i = 0; i < mEditImages.size(); i++) {
+                            editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                            choosed_images.add(Uri.parse(mEditImages.get(i).get("url").toString()));
+                        }
+
+
+                        //set the data to the views
+                        newPostDesc.setText(editDescription);
+
+                        mViewPager = new ViewPagerAdapter(NewPostActivity.this, editImagesLists, 1);
+                        new_image_pager.setAdapter(mViewPager);
+                        new_image_pager.setCurrentItem(0, false);
+                        mCircleIndicator.setViewPager(new_image_pager);
+                        mViewPager.notifyDataSetChanged();
+
+                    }
+                }
+            });
+*/
+
     }
 
     @Override
@@ -211,8 +286,10 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private void uploadImages() {
-        if(isUpdateKey.equals("editPost")){
+        if(isUpdateKey.equals("editPost") ){
             beginUpdate();
+        }else if(isShareKey.equals("share")){
+            sharePost();
         }else {
 
             for (int i = 0; i < choosed_images.size(); i++) {
@@ -241,7 +318,7 @@ public class NewPostActivity extends AppCompatActivity {
                                             imagesMap.add(images);
                                             images_URLs.add(String.valueOf(task.getResult()));
                                             if (images_URLs.size() == choosed_images.size()) {
-                                                storeLinksToFirestore(images_URLs, description, theTime, imagesMap);
+                                                storeLinksToFirestore(description, theTime, imagesMap);
                                             }
                                             Toast.makeText(NewPostActivity.this, "Post Was Added in storage", Toast.LENGTH_LONG).show();
                                         }
@@ -256,6 +333,56 @@ public class NewPostActivity extends AppCompatActivity {
                     });
                 }
             }
+        }
+    }
+
+    private void sharePost(){
+        newPostProgress.setVisibility(View.VISIBLE);
+        editPostDesc = newPostDesc.getText().toString();
+        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy hh:mm z");
+        String theTime = time.format(new Date());
+        Map<String, Object> postMap = new HashMap<>();
+        postMap.put("description",editPostDesc);
+        postMap.put("timestamp",theTime);
+        List<Map<String, Object>> image = mEditImages;
+        sharePostInFirestore(editPostDesc, theTime, image);
+    }
+
+    private void sharePostInFirestore(String description, String timeStamp, List<Map<String, Object>> imagesMap) {
+        String post_id = String.valueOf(System.currentTimeMillis());
+        Map<String, Object> postMap = new HashMap<>();
+        String likes = "0";
+        String comments = "0";
+        List<String> whoLikes = new ArrayList<>();
+        postMap.put("images", imagesMap);
+        postMap.put("description",description);
+        postMap.put("uid", userId);
+        postMap.put("post_ID",post_id);
+        postMap.put("timestamp", timeStamp);
+        postMap.put("email", uEmail);
+        postMap.put("name", uName);
+        postMap.put("user_img", uImage);
+        postMap.put("likes",likes);
+        postMap.put("comments",comments);
+        postMap.put("whoLikes",whoLikes);
+
+        if(!TextUtils.isEmpty(description) && imagesMap != null) {
+            firebaseFirestore.collection("posts").document(post_id).set(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(NewPostActivity.this, "Post Was Shared", Toast.LENGTH_LONG).show();
+                        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    } else {
+                        String error = task.getException().getMessage();
+                        Toast.makeText(NewPostActivity.this, "Can't Share the Post: " + error, Toast.LENGTH_LONG).show();
+
+                    }
+                    newPostProgress.setVisibility(View.INVISIBLE);
+                }
+            });
         }
     }
 
@@ -394,7 +521,7 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
 
-    private void storeLinksToFirestore(ArrayList<String> images_urLs, String description, String timeStamp, List<Map<String, Object>> imagesMap) {
+    private void storeLinksToFirestore( String description, String timeStamp, List<Map<String, Object>> imagesMap) {
         String post_id = String.valueOf(System.currentTimeMillis());
         Map<String, Object> postMap = new HashMap<>();
         String likes = "0";
