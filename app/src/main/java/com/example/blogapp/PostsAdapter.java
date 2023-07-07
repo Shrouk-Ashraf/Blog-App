@@ -66,7 +66,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        System.out.println("onbind" );
         //get Data
         String uID = postLists.get(position).getUid();
         String user_email = postLists.get(position).getEmail();
@@ -230,7 +229,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            System.out.println("view holder" );
             user_picture = itemView.findViewById(R.id.user_picture);
 
             post_image = itemView.findViewById(R.id.show_new_post_image_pager);// for the viewpager

@@ -1,8 +1,10 @@
 package com.example.blogapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +29,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
     Context mContext ;
     List<ModelComments> commentList;
     String myUid, postId;
+    private setOnClickListener listener;
 
-    public CommentsAdapter(Context context, List<ModelComments> commentList, String myUid, String postId) {
+
+    public CommentsAdapter(Context context, List<ModelComments> commentList, String myUid, String postId, setOnClickListener listener) {
         mContext = context;
         this.commentList = commentList;
         this.myUid = myUid;
         this.postId = postId;
+        this.listener = listener;
     }
 
     @NonNull
@@ -70,7 +75,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //delete comment
-                            deleteComment(cid,position);
+                            deleteComment(cid, holder.getAdapterPosition(), holder);
                             notifyDataSetChanged();
                         }
                     });
@@ -88,7 +93,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
         });
     }
 
-    private void deleteComment(String cid, int position) {
+    private void deleteComment(String cid, int position, viewHolder holder) {
         FirebaseFirestore.getInstance().collection("posts").document(postId).collection("comments")
                 .document(cid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -106,8 +111,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
                         ModelPosts post = qs.toObject(ModelPosts.class);
                         String comments = "" + post.getComments();
                         Integer newComment = Integer.parseInt(comments)-1;
+                        listener.onItemClicked(newComment);
                         data.put("comments",newComment.toString());
                         FirebaseFirestore.getInstance().collection("posts").document(postId).update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @SuppressLint("NotifyDataSetChanged")
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(mContext,"Comment count updated",Toast.LENGTH_SHORT).show();
@@ -127,7 +134,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
 
     class viewHolder extends RecyclerView.ViewHolder{
         ImageView userIv;
-        TextView nameTv, commentTv, timeTv;
+        TextView nameTv, commentTv, timeTv,commentTvv;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,6 +142,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.viewHo
             nameTv = itemView.findViewById(R.id.nameTv);
             commentTv = itemView.findViewById(R.id.commentTv);
             timeTv = itemView.findViewById(R.id.timeTv);
+            commentTvv = itemView.findViewById(R.id.post_comments);
         }
+    }
+    public interface setOnClickListener{
+        void  onItemClicked(Integer comments);
     }
 }

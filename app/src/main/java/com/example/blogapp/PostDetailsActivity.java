@@ -55,7 +55,7 @@ import java.util.Map;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class PostDetailsActivity extends AppCompatActivity {
+public class PostDetailsActivity extends AppCompatActivity  implements CommentsAdapter.setOnClickListener{
 
     ImageView userPictureIv;
     ViewPager postPictures;
@@ -86,7 +86,6 @@ public class PostDetailsActivity extends AppCompatActivity {
     private boolean mProcessLike = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +100,8 @@ public class PostDetailsActivity extends AppCompatActivity {
         //get id of the post using the intent
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
+
+
 
         userPictureIv = findViewById(R.id.user_picture);
         postPictures = findViewById(R.id.show_new_post_image_pager);
@@ -120,7 +121,6 @@ public class PostDetailsActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.commentProgressBar);
         commentsRv = findViewById(R.id.comments_RV);
 
-
         loadComments();
         loadPostInfo();
 
@@ -128,8 +128,6 @@ public class PostDetailsActivity extends AppCompatActivity {
         loadUserInfo();
 
         setLikes();
-
-//        getSupportActionBar().setSubtitle("SignedIn as: "+ myEmail);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +164,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                         for(DocumentSnapshot qs : documents){
                             ModelComments comments = qs.toObject(ModelComments.class);
                             commentList.add(comments);
-                            commentsAdapter = new CommentsAdapter(getApplicationContext(),commentList,myUid,postId);
+                            commentsAdapter = new CommentsAdapter(getApplicationContext(),commentList,myUid,postId,PostDetailsActivity.this);
                             commentsAdapter.notifyDataSetChanged();
                             commentsRv.setAdapter(commentsAdapter);
                         }
@@ -387,11 +385,12 @@ public class PostDetailsActivity extends AppCompatActivity {
                     if(mProcessComment){
                         String comments = ""+post.getComments();
                         Integer newComment = Integer.parseInt(comments)+1;
-                        data.put("comments",newComment.toString());
-                        FirebaseFirestore.getInstance().collection("posts").document(postId).set(data,SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        pCommentsTv.setText(newComment + " Comments");
+                        data.put("comments", newComment.toString());
+                        FirebaseFirestore.getInstance().collection("posts").document(postId).set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(PostDetailsActivity.this,"Comment count updated",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostDetailsActivity.this, "Comment count updated", Toast.LENGTH_SHORT).show();
                                 mProcessComment = false;
                             }
                         });
@@ -501,4 +500,9 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClicked(Integer comments) {
+        System.out.println(comments);
+        pCommentsTv.setText(comments + " Comments");
+    }
 }

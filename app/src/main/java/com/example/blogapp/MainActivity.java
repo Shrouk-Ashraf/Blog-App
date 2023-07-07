@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -76,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
 
         addPost_btn= findViewById(R.id.addpost_btn);
         mSwipeRefreshLayout = findViewById(R.id.swipe);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("post");
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

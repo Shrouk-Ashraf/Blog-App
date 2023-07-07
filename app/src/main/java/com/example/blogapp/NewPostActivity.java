@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -38,6 +40,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +51,11 @@ import java.util.List;
 import java.util.Map;
 
 import me.relex.circleindicator.CircleIndicator;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class NewPostActivity extends AppCompatActivity {
 
@@ -545,6 +554,11 @@ public class NewPostActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(NewPostActivity.this, "Post Was Added", Toast.LENGTH_LONG).show();
+                        try {
+                            sendFCMNotification(description,uName+" sends a new post", uImage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
                         startActivity(mainIntent);
                         finish();
@@ -608,8 +622,6 @@ public class NewPostActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void setViewPagerAdapter() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, choosed_images, 0);
         new_image_pager.setAdapter(viewPagerAdapter);
@@ -618,5 +630,68 @@ public class NewPostActivity extends AppCompatActivity {
         add_more_images.setVisibility(View.VISIBLE);
         addImagesCv.setVisibility(View.VISIBLE);
         viewPagerAdapter.notifyDataSetChanged();
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private void sendFCMNotification(String bodyText, String title, String image) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    return sendFCMNotificationInBackground(bodyText, title, image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "Error";
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if ("Success".equals(result)) {
+                    Toast.makeText(NewPostActivity.this, "Notification sent successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(NewPostActivity.this, "Failed to send notification", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private String sendFCMNotificationInBackground(String bodyText, String title, String image) throws Exception {
+        String url = "https://fcm.googleapis.com/fcm/send";
+
+        // Build the request body
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("to", "/topics/post");
+        Map<String, String> notificationMap = new HashMap<>();
+        notificationMap.put("body", bodyText);
+        notificationMap.put("title", title);
+        notificationMap.put("image", image);
+        bodyMap.put("notification", notificationMap);
+        Map<String, String> dataMap = new HashMap<>();
+        dataMap.put("image", image);
+        bodyMap.put("data", dataMap);
+        String bodyString = new JSONObject(bodyMap).toString();
+
+        // Build the request
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody requestBody = RequestBody.create(mediaType, bodyString);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "key=AAAAiR-pp58:APA91bHTcB6Isdo3m3QUEOVSxrlGXubVRCKc3gR6RiC6t3dw_3ZrbvvcwTYskwt-mtbRtyHw_G6fsGMO0vd3vrIbjKWYvb9DaaMDORfluEdAwUWopKuezfA_ESJ0ZAI4OuJfn-EhxUIQ" )
+                .addHeader("accept", "text/plain")
+                .build();
+
+        // Send the request and handle the response
+        Response response = client.newCall(request).execute();
+        if (response.code() != 200) {
+            String errorMessage = new JSONObject(response.body().string()).getJSONObject("error").getString("message");
+            return errorMessage != null ? errorMessage : "Error";
+        } else {
+            return "Success";
+        }
     }
 }
