@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    tools:context=".NewPostActivity">
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/new_post_pager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/default_img"
+        app:layout_constraintBottom_toTopOf="@+id/new_post_description"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_toolbar" >
+    </androidx.viewpager.widget.ViewPager>
+
+
+
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/circle_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/new_post_pager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_images_cv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/new_post_pager"
+        app:layout_constraintEnd_toEndOf="@+id/new_post_pager">
+        <ImageView
+        android:id="@+id/add_more_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+            android:background="#E5E5E5"
+        android:src="@drawable/ic_baseline_add_a_photo_24" />
+    </androidx.cardview.widget.CardView>
+
+    <!--<ImageView
+        android:id="@+id/add_more_images"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toBottomOf="@+id/new_post_pager"
+        app:layout_constraintEnd_toEndOf="@+id/new_post_pager" />-->
+
+
+    <EditText
+        android:id="@+id/new_post_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#FF2525"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Write Description"
+        android:maxLength="125"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_pager" />
+
+    <Button
+        android:id="@+id/new_post_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#FF4B12"
+        android:padding="16dp"
+        android:text="Post Blog"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/new_post_description"
+        app:layout_constraintStart_toStartOf="@+id/new_post_description"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_description" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/new_post_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:titleTextColor="@color/black"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/newpost_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="#F44336"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_post_toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

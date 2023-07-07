@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BlogApp</string>
+    <string name="action_search_txt">Search</string>
+    <string name="action_settings_txt">Account Settings</string>
+    <string name="action_logout_txt">Logout</string>
+    <string name="reg_btn_txt">Create New Account</string>
+    <string name="reg_login_txt">Already Have An Account</string>
+</resources>
