@@ -1,6 +1,7 @@
 package com.example.blogapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
     String myUid;
 
     CollectionReference postRef;
-    CollectionReference likesRef;
-    boolean processLike = false;
+    boolean processLike = true ;
     List<String> whoLikes = new ArrayList<>();
 
 
@@ -52,7 +52,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.setOnClickListener = setOnClickListener;
         postRef = FirebaseFirestore.getInstance().collection("posts");
-        likesRef = FirebaseFirestore.getInstance().collection("liked posts");
     }
 
 
@@ -60,7 +59,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_posts,parent,false);
-
         return new viewHolder(view);
     }
 
@@ -75,6 +73,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         String post_desc = postLists.get(position).getDescription();
         String post_timestamp = postLists.get(position).getTimestamp();
         String post_likes = postLists.get(position).getLikes();
+        String post_comments = postLists.get(position).getComments();
 
         whoLikes = postLists.get(position).getWhoLikes();
         ArrayList<String> postImagesList = new ArrayList<>();
@@ -93,6 +92,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         holder.post_desc.setText(post_desc);
         holder.post_time.setText(post_timestamp);
         holder.pLikes.setText(post_likes+ " Likes");
+        holder.pComments.setText(post_comments + " Comments");
 
         setLikes(holder,whoLikes);
 
@@ -113,12 +113,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                 Integer postLikes = Integer.valueOf(postLists.get(position).getLikes()); //get total number of likes for the post
                 String postId = postLists.get(position).getPost_ID();
                 Map<String , Object> data = new HashMap<>();
+                List<String> likes = postLists.get(position).getWhoLikes();
 
-                if(processLike){ //to dislike
+                if(likes.contains(myUid)){ //to dislike
                     postLikes = postLikes -1;
                     data.put("likes",postLikes.toString());
-                    whoLikes.remove(myUid);
-                    data.put("whoLikes",whoLikes);
+                    likes.remove(myUid);
+                    data.put("whoLikes",likes);
                     Integer finalPostLikes = postLikes;
                     postLists.get(position).setLikes(String.valueOf(postLikes));
                     postRef.document(postId).update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -139,8 +140,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                 }else{ //to like
                     postLikes = postLikes +1;
                     data.put("likes",postLikes.toString());
-                    whoLikes.add(myUid);
-                    data.put("whoLikes",whoLikes);
+                    likes.add(myUid);
+                    data.put("whoLikes",likes);
                     Integer finalPostLikes = postLikes;
                     postLists.get(position).setLikes(String.valueOf(postLikes));
                     postRef.document(postId).update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -160,18 +161,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                     });
                 }
 
+
             }
         });
         holder.commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"comment btn", Toast.LENGTH_LONG).show();
+                //start postDetails Activity
+                Intent intent = new Intent(mContext, PostDetailsActivity.class);
+                intent.putExtra("postId",post_id); //will get details of post using this id
+                mContext.startActivity(intent);
             }
         });
         holder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"share btn", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext, NewPostActivity.class);
+                intent.putExtra("shareKey","share");
+                intent.putExtra("sharePostId", post_id);
+                mContext.startActivity(intent);
             }
         });
 
@@ -191,7 +199,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         }
     }
 
-
     private void setViewPagerAdapter(ArrayList<String> postImagesList, viewHolder holder) {
         ShowPostsViewPager showPostsViewPager = new ShowPostsViewPager(mContext,postImagesList);
 
@@ -204,7 +211,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         holder.postCircleIndicator.setViewPager(holder.post_image);
         showPostsViewPager.notifyDataSetChanged();
     }
-
     @Override
     public int getItemCount() {
         return postLists.size();
@@ -219,10 +225,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
         ImageButton moreBtn;
         Button likeBtn, commentBtn, shareBtn;
         TextView pLikes;
+        TextView pComments;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-
             user_picture = itemView.findViewById(R.id.user_picture);
 
             post_image = itemView.findViewById(R.id.show_new_post_image_pager);// for the viewpager
@@ -236,6 +242,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
             pLikes = itemView.findViewById(R.id.post_likes);
+            pComments = itemView.findViewById(R.id.post_comments);
 
 
         }
@@ -244,5 +251,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
     public interface setOnClickListener{
         void  onItemClicked(ModelPosts modelPosts, ImageButton  moreBtn);
     }
+
 
 }

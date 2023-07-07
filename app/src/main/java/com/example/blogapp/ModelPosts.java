@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class ModelPosts {
     String post_ID,description,email,uid, name, user_img, likes,comments;
-
     String timestamp;
     List<Map<String, Object>> images =new ArrayList<>();
     List<String> whoLikes = new ArrayList<>();
@@ -15,7 +14,6 @@ public class ModelPosts {
     }
 
     public ModelPosts(String post_ID, String description, String email, String uid, String name, String user_img, String postLikes, String timestamp, List<Map<String, Object>> images, List<String> whoLike, String comments) {
-
         this.post_ID = post_ID;
         this.description = description;
         this.email = email;
@@ -35,7 +33,6 @@ public class ModelPosts {
 
     public void setComments(String comments) {
         this.comments = comments;
-
     }
 
     public String getPost_ID() {
