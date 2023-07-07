@@ -147,6 +147,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
                 showMoreOptions();
             }
         });
+       ///
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
