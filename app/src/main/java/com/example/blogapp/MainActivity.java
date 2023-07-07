@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
@@ -33,7 +32,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -81,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         addPost_btn= findViewById(R.id.addpost_btn);
         mSwipeRefreshLayout = findViewById(R.id.swipe);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("post");
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -109,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         layoutManager.setReverseLayout(true);
         //set layout to rv
         mRecyclerView.setLayoutManager(layoutManager);
+
+
         moreBtn = findViewById(R.id.moreBtn);
         //init post list
         postsList = new ArrayList<>();
@@ -124,13 +122,15 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 postsList.clear();
                 for(QueryDocumentSnapshot qs : task.getResult()){
                     ModelPosts modelPosts = qs.toObject(ModelPosts.class);
+
                     postsList.add(modelPosts);
+                    //adapter
+                    mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
+                    mPostsAdapter.notifyDataSetChanged();
+                    //set adapter to rv
+                    mRecyclerView.setAdapter(mPostsAdapter);
+
                 }
-                //adapter
-                mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
-                mPostsAdapter.notifyDataSetChanged();
-                //set adapter to rv
-                mRecyclerView.setAdapter(mPostsAdapter);
             }
         });
 
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 postsList.clear();
-                System.out.println("search" );
                 for(QueryDocumentSnapshot qs : task.getResult()){
                     ModelPosts modelPosts = qs.toObject(ModelPosts.class);
 
@@ -160,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         });
 
     }
-
 
 
     @Override
@@ -181,9 +179,6 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                             Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
                             startActivity(setupIntent);
                             finish();
-                        }
-                        else {
-                            loadPosts();
                         }
                     }else{
                         String error = task.getException().getMessage();
@@ -342,6 +337,8 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+
+
                     Toast.makeText(MainActivity.this,"Deleted",Toast.LENGTH_LONG).show();
 
                 }

@@ -51,7 +51,6 @@ public class ViewPagerAdapter  extends PagerAdapter {
         ImageView imageView = view.findViewById(R.id.add_new_post_image);
 
         ImageView trash = view.findViewById(R.id.trash_iv);
-        trash.setVisibility(View.INVISIBLE);
 
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -65,11 +64,7 @@ public class ViewPagerAdapter  extends PagerAdapter {
 
         int del_position = position;
 
-        if(this.i == 2){
-            trash.setVisibility(View.INVISIBLE);
-            delete_view.setVisibility(View.INVISIBLE);
-        }
-        else if(this.i==1){
+        if(this.i==1){
             trash.setVisibility(View.VISIBLE);
             delete_view.setVisibility(View.INVISIBLE);
             trash.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +76,7 @@ public class ViewPagerAdapter  extends PagerAdapter {
                 }
             });
             this.imagesURLs = imagesURLs;
-        }else if (this.i ==0){
+        }else {
             delete_view.setVisibility(View.VISIBLE);
             trash.setVisibility(View.INVISIBLE);
             delete_view.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +86,6 @@ public class ViewPagerAdapter  extends PagerAdapter {
                     notifyDataSetChanged();
                 }
             });
-        }else{
-            delete_view.setVisibility(View.INVISIBLE);
-            trash.setVisibility(View.INVISIBLE);
         }
         container.addView(view);
         return view;
