@@ -147,6 +147,15 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
                 showMoreOptions();
             }
         });
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PostDetailsActivity.this, NewPostActivity.class);
+                intent.putExtra("shareKey","share");
+                intent.putExtra("sharePostId", postId);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadComments() {
