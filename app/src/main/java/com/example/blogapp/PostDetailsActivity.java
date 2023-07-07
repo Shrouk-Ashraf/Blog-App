@@ -355,21 +355,21 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
         data.put("timestamp",theTime);
         FirebaseFirestore.getInstance().collection("posts").document(postId)
                 .collection("comments").document(time).set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
-                        commentEt.setText("");
-                        updateCommentCount();
-                        loadComments();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PostDetailsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            @Override
+            public void onSuccess(Void unused) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
+                commentEt.setText("");
+                updateCommentCount();
+                loadComments();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(PostDetailsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+            }
+        });
     }
 
     private void updateCommentCount() {
