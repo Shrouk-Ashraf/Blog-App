@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,7 +57,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class PostDetailsActivity extends AppCompatActivity  implements CommentsAdapter.setOnClickListener{
 
-
     ImageView userPictureIv;
     ViewPager postPictures;
     TextView uNameTv,postTimeTv,postDescTv,pLikesTv, pCommentsTv;
@@ -82,7 +80,6 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
     private List<Map<String, Object>> images;
 
     private ViewPagerAdapter mViewPager;
-
     private Toolbar postDetailsToolbar;
 
     private boolean mProcessComment = false;
@@ -103,6 +100,9 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
         //get id of the post using the intent
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
+
+
+
         userPictureIv = findViewById(R.id.user_picture);
         postPictures = findViewById(R.id.show_new_post_image_pager);
         mCircleIndicator = findViewById(R.id.show_circle_indicator);
@@ -145,15 +145,6 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
             @Override
             public void onClick(View view) {
                 showMoreOptions();
-            }
-        });
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PostDetailsActivity.this, NewPostActivity.class);
-                intent.putExtra("shareKey","share");
-                intent.putExtra("sharePostId", postId);
-                startActivity(intent);
             }
         });
     }
@@ -204,7 +195,6 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
                 if (id ==0){
                     //delete is clicked
                     beginDeletePost();
-
                 }else if (id ==1){
                     //Edit is clicked
                     //Start the NewPostActivity with key "editPost" and the id of the post clicked
@@ -365,21 +355,21 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
         data.put("timestamp",theTime);
         FirebaseFirestore.getInstance().collection("posts").document(postId)
                 .collection("comments").document(time).set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                mProgressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
-                commentEt.setText("");
-                updateCommentCount();
-                loadComments();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PostDetailsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onSuccess(Void unused) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
+                        commentEt.setText("");
+                        updateCommentCount();
+                        loadComments();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PostDetailsActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
-            }
-        });
+                    }
+                });
     }
 
     private void updateCommentCount() {
@@ -485,7 +475,6 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
             }
         });
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
