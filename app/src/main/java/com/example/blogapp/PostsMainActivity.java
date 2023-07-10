@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,10 +40,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements PostsAdapter.setOnClickListener {
+public class PostsMainActivity extends AppCompatActivity implements PostsAdapter.setOnClickListener {
 
-    private FloatingActionButton addPost_btn;
-    private Toolbar mainToolbar;
+    FloatingActionButton addPost_btn;
+    Toolbar mainToolbar;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirebaseFirestore;
@@ -65,11 +66,12 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_posts_main);
 
         mainToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle("InMuse");
+        mainToolbar.setTitleTextAppearance(this,R.style.AppTextAppearance);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseFirestore = FirebaseFirestore.getInstance();
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onRefresh() {
                 loadPosts();
-                Toast.makeText(MainActivity.this,"Refreshed",Toast.LENGTH_LONG).show();
+                Toast.makeText(PostsMainActivity.this,"Refreshed",Toast.LENGTH_LONG).show();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         addPost_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newPostIntent = new Intent(MainActivity.this, NewPostActivity.class);
+                Intent newPostIntent = new Intent(PostsMainActivity.this, NewPostActivity.class);
                 startActivity(newPostIntent);
             }
         });
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
     private void loadPosts() {
         //path of all posts
         FirebaseFirestore.getInstance().collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 postsList.clear();
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                     postsList.add(modelPosts);
                 }
                 //adapter
-                mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
+                mPostsAdapter =new PostsAdapter(PostsMainActivity.this, postsList, PostsMainActivity.this);
                 mPostsAdapter.notifyDataSetChanged();
                 //set adapter to rv
                 mRecyclerView.setAdapter(mPostsAdapter);
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                         postsList.add(modelPosts);
                     }
                     //adapter
-                    mPostsAdapter =new PostsAdapter(MainActivity.this, postsList,MainActivity.this);
+                    mPostsAdapter =new PostsAdapter(PostsMainActivity.this, postsList, PostsMainActivity.this);
                     //set adapter to rv
                     mRecyclerView.setAdapter(mPostsAdapter);
                 }
@@ -175,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
                         if(!task.getResult().exists()){// if the user doesn't have name or image
-                            Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
+                            Intent setupIntent = new Intent(PostsMainActivity.this, SetupActivity.class);
                             startActivity(setupIntent);
                             finish();
                         }
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                         }
                     }else{
                         String error = task.getException().getMessage();
-                        Toast.makeText(MainActivity.this, "ERROR: "+ error,Toast.LENGTH_LONG).show();
+                        Toast.makeText(PostsMainActivity.this, "ERROR: "+ error,Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -242,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 return true;
 
             case R.id.action_settings_btn:
-                Intent intent = new Intent(MainActivity.this, SetupActivity.class);
+                Intent intent = new Intent(PostsMainActivity.this, SetupActivity.class);
                 startActivity(intent);
 
             default:
@@ -256,13 +259,13 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
         sendToLogin();
     }
     private void sendToLogin() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent intent = new Intent(PostsMainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void onItemClicked(ModelPosts modelPosts, ImageButton moreBtn) {
-        Toast.makeText(MainActivity.this, modelPosts.getPost_ID(),Toast.LENGTH_LONG).show();
+        Toast.makeText(PostsMainActivity.this, modelPosts.getPost_ID(),Toast.LENGTH_LONG).show();
         String myUid = modelPosts.getUid();
         String post_id = modelPosts.getPost_ID();
         postImagesList = modelPosts.getImages();
@@ -271,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
 
     private void showMoreOptions(ImageButton moreBtn, String uID, String myUid, String post_id, List<Map<String, Object>> postImagesList, ModelPosts modelPosts) {
         //creating a pop menu having options delete
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, moreBtn, Gravity.END);
+        PopupMenu popupMenu = new PopupMenu(PostsMainActivity.this, moreBtn, Gravity.END);
         //show delete options in only post(s) of currently signed-in user
         if (uID.equals(myUid)){
             popupMenu.getMenu().add(R.menu.popup_menu,0,0,"Delete"); //add items in menu
@@ -290,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 }else if (id ==1){
                     //Edit is clicked
                     //Start the NewPostActivity with key "editPost" and the id of the post clicked
-                    Intent editIntent = new Intent(MainActivity.this,NewPostActivity.class);
+                    Intent editIntent = new Intent(PostsMainActivity.this,NewPostActivity.class);
                     editIntent.putExtra("key","editPost");
                     editIntent.putExtra("editPostId", post_id);
                     startActivity(editIntent);
@@ -304,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
     }
 
     private void beginDelete(String post_id, List<Map<String, Object>> postImagesList, String uID) {
-        ProgressBar progressBar =new ProgressBar(MainActivity.this);
+        ProgressBar progressBar =new ProgressBar(PostsMainActivity.this);
         progressBar.setVisibility(View.VISIBLE);
 
         //1)Delete image urls
@@ -326,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
                 public void onFailure(@NonNull Exception e) {
                     //failed
                     progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(MainActivity.this,"ERROR in deleting",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PostsMainActivity.this,"ERROR in deleting",Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -339,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements PostsAdapter.setO
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(MainActivity.this,"Deleted",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PostsMainActivity.this,"Deleted",Toast.LENGTH_LONG).show();
 
                 }
             }

@@ -75,15 +75,15 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
     CommentsAdapter commentsAdapter;
 
     //get Details of user and post
-    String uid ,myUid, myEmail,myName, myImg, postId, postLikes, hisDesc,hisName;
+    String uid ,myUid, myEmail,myName, myImg, postId, postLikes,hisName;
     ArrayList<Uri> imagesLists = new ArrayList<>();
     private List<Map<String, Object>> images;
 
     private ViewPagerAdapter mViewPager;
-    private Toolbar postDetailsToolbar;
+    Toolbar postDetailsToolbar;
 
-    private boolean mProcessComment = false;
-    private boolean mProcessLike = false;
+    boolean mProcessComment = false;
+    boolean mProcessLike = false;
 
 
     @Override
@@ -96,6 +96,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
         getSupportActionBar().setTitle("Post Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        postDetailsToolbar.setTitleTextAppearance(this,R.style.AppTextAppearance);
 
         //get id of the post using the intent
         Intent intent = getIntent();
@@ -255,7 +256,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(PostDetailsActivity.this,MainActivity.class);
+                    Intent intent = new Intent(PostDetailsActivity.this, PostsMainActivity.class);
                     startActivity(intent);
                     Toast.makeText(PostDetailsActivity.this,"Deleted",Toast.LENGTH_LONG).show();
 

@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class ViewPagerAdapter  extends PagerAdapter {
     private Context mContext;
 

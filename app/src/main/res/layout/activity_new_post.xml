@@ -41,17 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
-            android:background="#E5E5E5"
-        android:src="@drawable/ic_baseline_add_a_photo_24" />
-    </androidx.cardview.widget.CardView>
-
-    <!--<ImageView
-        android:id="@+id/add_more_images"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:background="#E5E5E5"
         android:src="@drawable/ic_baseline_add_a_photo_24"
-        app:layout_constraintBottom_toBottomOf="@+id/new_post_pager"
-        app:layout_constraintEnd_toEndOf="@+id/new_post_pager" />-->
+        android:contentDescription="@string/todo" />
+    </androidx.cardview.widget.CardView>
 
 
     <EditText
@@ -63,13 +56,16 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="#FF2525"
         android:ems="10"
+        android:fontFamily="@font/montserrat_alternates"
         android:gravity="start|top"
-        android:hint="Write Description"
+        android:hint="@string/write_description"
         android:maxLength="125"
         android:padding="15dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_post_pager" />
+        app:layout_constraintTop_toBottomOf="@+id/new_post_pager"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/new_post_btn"
@@ -77,8 +73,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="#FF4B12"
-        android:padding="16dp"
-        android:text="Post Blog"
+        android:fontFamily="@font/montserrat_alternates"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/post_blog"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp"

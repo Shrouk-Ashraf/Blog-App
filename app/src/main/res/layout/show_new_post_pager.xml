@@ -7,7 +7,8 @@
         android:id="@+id/show_new_post_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_img"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/default_img" />
+
 
 </RelativeLayout>

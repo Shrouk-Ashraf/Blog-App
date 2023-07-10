@@ -30,9 +30,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -44,7 +42,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,11 +114,9 @@ public class NewPostActivity extends AppCompatActivity {
         choosed_images = new ArrayList<>();
         images_URLs = new ArrayList<>();
 
-
-
         setSupportActionBar(newPostToolbar);
         getSupportActionBar().setTitle("Add New Post");
-
+        newPostToolbar.setTitleTextAppearance(this,R.style.AppTextAppearance);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -149,9 +144,6 @@ public class NewPostActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Add New Post");
             newPostBtn.setText("Upload");
         }
-
-
-
 
         //get the user's data
         userRef = firebaseFirestore.collection("users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -251,37 +243,6 @@ public class NewPostActivity extends AppCompatActivity {
             });
 
         }
-/*
-            firebaseFirestore.collection("posts").whereEqualTo("post_ID", editPostId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-
-                    for (DocumentSnapshot qs : snapshotList) {
-                        ModelPosts editPosts = qs.toObject(ModelPosts.class);
-
-                        String editDescription = editPosts.getDescription();
-                        mEditImages = (List<Map<String, Object>>) qs.getData().get("images");
-
-                        for (int i = 0; i < mEditImages.size(); i++) {
-                            editImagesLists.add(Uri.parse(mEditImages.get(i).get("url").toString()));
-                            choosed_images.add(Uri.parse(mEditImages.get(i).get("url").toString()));
-                        }
-
-
-                        //set the data to the views
-                        newPostDesc.setText(editDescription);
-
-                        mViewPager = new ViewPagerAdapter(NewPostActivity.this, editImagesLists, 1);
-                        new_image_pager.setAdapter(mViewPager);
-                        new_image_pager.setCurrentItem(0, false);
-                        mCircleIndicator.setViewPager(new_image_pager);
-                        mViewPager.notifyDataSetChanged();
-
-                    }
-                }
-            });
-*/
 
     }
 
@@ -381,7 +342,7 @@ public class NewPostActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(NewPostActivity.this, "Post Was Shared", Toast.LENGTH_LONG).show();
-                        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                        Intent mainIntent = new Intent(NewPostActivity.this, PostsMainActivity.class);
                         startActivity(mainIntent);
                         finish();
                     } else {
@@ -515,7 +476,7 @@ public class NewPostActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(NewPostActivity.this, "Post Was Updated", Toast.LENGTH_LONG).show();
-                        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                        Intent mainIntent = new Intent(NewPostActivity.this, PostsMainActivity.class);
                         startActivity(mainIntent);
                         finish();
                     } else {
@@ -559,7 +520,7 @@ public class NewPostActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                        Intent mainIntent = new Intent(NewPostActivity.this, PostsMainActivity.class);
                         startActivity(mainIntent);
                         finish();
                     } else {

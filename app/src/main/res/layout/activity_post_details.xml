@@ -90,6 +90,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
+                                android:fontFamily="@font/montserrat_alternates"
                                 android:text="33 min"
                                 android:textColor="#8B8B8B"
                                 android:textSize="15sp" />
@@ -115,10 +116,11 @@
                         android:id="@+id/post_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/montserrat_alternates"
                         android:text="The Description of the post"
                         android:textColor="@color/black"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="5dp"/>
+                        android:textSize="17sp" />
 
                     <!--<ImageView
                         android:id="@+id/post_image"
@@ -155,25 +157,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/post_likes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
+                            android:fontFamily="@font/montserrat_alternates"
                             android:text="1.2K Likes"
-                            android:textColor="#FF4B12"
-                            android:layout_marginStart="5dp"/>
+                            android:textColor="#FF4B12" />
 
                         <TextView
                             android:id="@+id/post_comments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:textAlignment="textEnd"
+                            android:fontFamily="@font/montserrat_alternates"
                             android:gravity="end"
                             android:text="1.2K Comments"
-                            android:textColor="#FF4B12"
-                            android:layout_marginStart="5dp"/>
+                            android:textAlignment="textEnd"
+                            android:textColor="#FF4B12" />
                     </LinearLayout>
 
 
@@ -200,6 +205,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#E6E6E6"
                             android:drawableLeft="@drawable/ic_like_black"
+                            android:fontFamily="@font/montserrat_alternates_medium"
                             android:paddingLeft="15dp"
                             android:text="Like" />
 
@@ -207,11 +213,12 @@
                             android:id="@+id/shareBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_share_black"
-                            android:paddingStart="15dp"
                             android:layout_weight="1"
                             android:backgroundTint="#E6E6E6"
-                            android:text="Share"/>
+                            android:drawableLeft="@drawable/ic_share_black"
+                            android:fontFamily="@font/montserrat_alternates_medium"
+                            android:paddingStart="15dp"
+                            android:text="Share" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -224,10 +231,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="Comments"
                 android:drawablePadding="5dp"
-                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_alternates"
                 android:padding="2dp"
+                android:text="Comments"
+                android:textColor="@color/black"
                 app:drawableLeftCompat="@drawable/ic_comment_black"
                 app:drawableStartCompat="@drawable/ic_comment_black" />
 

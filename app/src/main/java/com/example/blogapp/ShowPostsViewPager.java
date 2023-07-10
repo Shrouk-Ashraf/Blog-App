@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class ShowPostsViewPager extends PagerAdapter {
     Context mContext;
     ArrayList<String> postImagesList;

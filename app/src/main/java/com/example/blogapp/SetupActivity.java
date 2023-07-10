@@ -175,7 +175,7 @@ public class SetupActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(SetupActivity.this, "user settings are updater", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SetupActivity.this, MainActivity.class);
+                            Intent intent = new Intent(SetupActivity.this, PostsMainActivity.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(SetupActivity.this, "ERROR in image Firestore", Toast.LENGTH_LONG).show();

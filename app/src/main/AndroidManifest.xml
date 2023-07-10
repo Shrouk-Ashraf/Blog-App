@@ -36,7 +36,7 @@
         <activity
             android:name=".NewPostActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".PostsMainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -63,7 +63,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".PostsMainActivity"
             android:exported="false"
             android:screenOrientation="portrait">
             <meta-data

@@ -29,7 +29,7 @@
                 android:src="@drawable/default_profile_img" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/montserrat_alternates_medium"
-                    android:text="Name"
+                    android:text="@string/user_name"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -49,9 +49,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="33 min"
+                    android:text="@string/timestamp"
                     android:textColor="#8B8B8B"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:fontFamily="@font/montserrat_alternates" />
 
             </LinearLayout>
 
@@ -60,7 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:src="@drawable/ic_more_black" />
+                android:src="@drawable/ic_more_black"
+                android:contentDescription="@string/todo" />
         </LinearLayout>
 
         <View
@@ -74,10 +76,11 @@
             android:id="@+id/post_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The Description of the post"
+            android:text="@string/the_description_of_the_post"
             android:textColor="@color/black"
             android:textSize="17sp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/montserrat_alternates" />
 
         <!--<ImageView
             android:id="@+id/post_image"
@@ -121,9 +124,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1.2K Likes"
                 android:textColor="#FF4B12"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_alternates" />
 
             <TextView
                 android:id="@+id/post_comments"
@@ -132,9 +135,9 @@
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
                 android:gravity="end"
-                android:text="1.2K Comments"
                 android:textColor="#FF4B12"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/montserrat_alternates"/>
         </LinearLayout>
 
 
@@ -159,27 +162,30 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#E6E6E6"
-                android:drawableLeft="@drawable/ic_like_black"
-                android:paddingLeft="15dp"
-                android:text="Like" />
+                android:drawableStart="@drawable/ic_like_black"
+                android:paddingStart="15dp"
+                android:text="@string/like"
+                android:fontFamily="@font/montserrat_alternates_medium"/>
             <Button
                 android:id="@+id/commentBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#E6E6E6"
-                android:drawableLeft="@drawable/ic_comment_black"
-                android:paddingLeft="15dp"
-                android:text="Comment"/>
+                android:drawableStart="@drawable/ic_comment_black"
+                android:paddingStart="15dp"
+                android:text="@string/comment"
+                android:fontFamily="@font/montserrat_alternates_medium"/>
             <Button
                 android:id="@+id/shareBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_share_black"
+                android:drawableStart="@drawable/ic_share_black"
                 android:paddingStart="15dp"
                 android:layout_weight="1"
                 android:backgroundTint="#E6E6E6"
-                android:text="Share"/>
+                android:text="@string/share"
+                android:fontFamily="@font/montserrat_alternates_medium"/>
         </LinearLayout>
 
     </LinearLayout>

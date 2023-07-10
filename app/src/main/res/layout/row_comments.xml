@@ -16,31 +16,37 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/default_profile_img"/>
+
         <TextView
             android:id="@+id/nameTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/userIV"
+            android:fontFamily="@font/montserrat_alternates_bold"
             android:text="User"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/commentTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/nameTv"
             android:layout_toEndOf="@id/userIV"
-            android:text= "this is the comment"
-            android:textColor="@color/black"/>
+            android:fontFamily="@font/montserrat_alternates"
+            android:text="this is the comment"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/timeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="04/07/2023"
             android:layout_below="@id/commentTv"
             android:layout_toEndOf="@id/userIV"
-            android:layout_toRightOf="@id/userIV"/>
+            android:layout_toRightOf="@id/userIV"
+            android:fontFamily="@font/montserrat_alternates"
+            android:text="04/07/2023" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

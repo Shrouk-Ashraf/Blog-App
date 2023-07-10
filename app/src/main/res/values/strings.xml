@@ -5,4 +5,13 @@
     <string name="action_logout_txt">Logout</string>
     <string name="reg_btn_txt">Create New Account</string>
     <string name="reg_login_txt">Already Have An Account</string>
+    <string name="todo">TODO</string>
+    <string name="write_description">Write Description</string>
+    <string name="post_blog">Post Blog</string>
+    <string name="share">Share</string>
+    <string name="user_name">Name</string>
+    <string name="timestamp">33 min</string>
+    <string name="the_description_of_the_post">The Description of the post</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
 </resources>
