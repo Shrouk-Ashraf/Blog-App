@@ -250,7 +250,7 @@ public class NewPostActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if(editImagesLists.size() != choosed_images.size()){
-            Toast.makeText(mContext,"Back", Toast.LENGTH_LONG).show();
+          //  Toast.makeText(mContext,"Back", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -296,7 +296,7 @@ public class NewPostActivity extends AppCompatActivity {
                                 });
                             } else {
                                 String error = task.getException().getMessage();
-                                Toast.makeText(NewPostActivity.this, "(Image Storage): " + error, Toast.LENGTH_LONG).show();
+                                //Toast.makeText(NewPostActivity.this, "(Image Storage): " + error, Toast.LENGTH_LONG).show();
                                 newPostProgress.setVisibility(View.INVISIBLE);
                             }
                         }
@@ -347,7 +347,7 @@ public class NewPostActivity extends AppCompatActivity {
                         finish();
                     } else {
                         String error = task.getException().getMessage();
-                        Toast.makeText(NewPostActivity.this, "Can't Share the Post: " + error, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(NewPostActivity.this, "Can't Share the Post: " + error, Toast.LENGTH_LONG).show();
 
                     }
                     newPostProgress.setVisibility(View.INVISIBLE);

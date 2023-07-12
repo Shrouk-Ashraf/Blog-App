@@ -310,7 +310,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
                             @Override
                             public void onSuccess(Void unused) {
                                 mProcessLike = false;
-                                Toast.makeText(PostDetailsActivity.this,"disLike",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(PostDetailsActivity.this,"disLike",Toast.LENGTH_LONG).show();
                                 pLikesTv.setText(finalLikes + " Likes");
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -330,7 +330,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
                             @Override
                             public void onSuccess(Void unused) {
                                 mProcessLike = true;
-                                Toast.makeText(PostDetailsActivity.this,"Like",Toast.LENGTH_LONG).show();
+                                //Toast.makeText(PostDetailsActivity.this,"Like",Toast.LENGTH_LONG).show();
                                 pLikesTv.setText(finalPostLikes+" Likes");
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -368,7 +368,7 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
             @Override
             public void onSuccess(Void unused) {
                 mProgressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(PostDetailsActivity.this,"Comment Added",Toast.LENGTH_SHORT).show();
                 commentEt.setText("");
                 updateCommentCount();
                 loadComments();

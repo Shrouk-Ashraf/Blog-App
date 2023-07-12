@@ -126,7 +126,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                         @Override
                         public void onSuccess(Void unused) {
                             processLike = false;
-                            Toast.makeText(mContext,"disLike",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(mContext,"disLike",Toast.LENGTH_LONG).show();
                             holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_like_black,0,0,0);
                             holder.likeBtn.setText("Like");
                             holder.pLikes.setText(finalPostLikes + " Likes");
@@ -148,7 +148,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.viewHolder> 
                         @Override
                         public void onSuccess(Void unused) {
                             processLike = true;
-                            Toast.makeText(mContext,"Like",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(mContext,"Like",Toast.LENGTH_LONG).show();
                             holder.likeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_liked,0,0,0);
                             holder.likeBtn.setText("Liked");
                             holder.pLikes.setText(finalPostLikes+" Likes");
