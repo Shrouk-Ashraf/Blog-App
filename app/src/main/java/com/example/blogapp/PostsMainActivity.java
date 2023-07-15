@@ -1,6 +1,7 @@
 package com.example.blogapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -71,6 +72,8 @@ public class PostsMainActivity extends AppCompatActivity implements PostsAdapter
         mainToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setTitle("InMuse");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mainToolbar.setTitleTextAppearance(this,R.style.AppTextAppearance);
 
         mAuth = FirebaseAuth.getInstance();
@@ -349,5 +352,8 @@ public class PostsMainActivity extends AppCompatActivity implements PostsAdapter
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

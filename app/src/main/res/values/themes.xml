@@ -15,5 +15,6 @@
     </style>
     <style name="AppTextAppearance">
         <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

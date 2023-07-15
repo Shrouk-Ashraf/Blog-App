@@ -512,7 +512,11 @@ public class PostDetailsActivity extends AppCompatActivity  implements CommentsA
 
     @Override
     public void onItemClicked(Integer comments) {
-        System.out.println(comments);
         pCommentsTv.setText(comments + " Comments");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

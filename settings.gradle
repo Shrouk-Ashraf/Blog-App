@@ -24,7 +24,6 @@ dependencyResolutionManagement {
         }
     }
 }
-include ':circleindicator', ':sample', ':LoopingViewPager'
 
 rootProject.name = "BlogApp"
 include ':app'
