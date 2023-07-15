@@ -268,7 +268,7 @@ public class PostsMainActivity extends AppCompatActivity implements PostsAdapter
 
     @Override
     public void onItemClicked(ModelPosts modelPosts, ImageButton moreBtn) {
-        Toast.makeText(PostsMainActivity.this, modelPosts.getPost_ID(),Toast.LENGTH_LONG).show();
+        //Toast.makeText(PostsMainActivity.this, modelPosts.getPost_ID(),Toast.LENGTH_LONG).show();
         String myUid = modelPosts.getUid();
         String post_id = modelPosts.getPost_ID();
         postImagesList = modelPosts.getImages();
@@ -332,7 +332,7 @@ public class PostsMainActivity extends AppCompatActivity implements PostsAdapter
                 public void onFailure(@NonNull Exception e) {
                     //failed
                     progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(PostsMainActivity.this,"ERROR in deleting",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(PostsMainActivity.this,"ERROR in deleting",Toast.LENGTH_LONG).show();
                 }
             });
         }

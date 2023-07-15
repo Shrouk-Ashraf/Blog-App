@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(LoginActivity.this,"in sign in",Toast.LENGTH_LONG).show();
+                               // Toast.makeText(LoginActivity.this,"in sign in",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginActivity.this, PostsMainActivity.class);
                                 startActivity(intent);
 

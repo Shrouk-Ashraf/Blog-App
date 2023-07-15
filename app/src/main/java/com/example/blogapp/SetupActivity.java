@@ -98,7 +98,7 @@ public class SetupActivity extends AppCompatActivity {
                                 .setDefaultRequestOptions(placeholderRequest)
                                 .load(image)
                                 .into(setupimage);
-                        Toast.makeText(SetupActivity.this, "Data Exists", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(SetupActivity.this, "Data Exists", Toast.LENGTH_LONG).show();
                     }
                 }else{
                     Toast.makeText(SetupActivity.this, "ERROR in image Firestore", Toast.LENGTH_LONG).show();
@@ -174,7 +174,7 @@ public class SetupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(SetupActivity.this, "user settings are updater", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SetupActivity.this, "user settings are updated", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(SetupActivity.this, PostsMainActivity.class);
                             startActivity(intent);
                         }else{
